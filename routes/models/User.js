@@ -1,6 +1,6 @@
-const mangoose = require('mangoose');
+const mongoose = require('mongoose');
 
-const Schema = mangoose.Schema;
+const Schema = mongoose.Schema;
 
 
 // Create schema
@@ -20,11 +20,10 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        required: true,
     },
     date: {
         type: Date,
         default: Date.now,
     },
 });
-module.exports = User.mangoose.model('users', UserSchema);
+module.exports = User = mongoose.model('users', UserSchema);
