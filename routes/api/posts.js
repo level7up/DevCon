@@ -21,8 +21,8 @@ router.get('/test', (req, res) => res.json({
 // @access  Public
 router.get('/', (req, res) => {
     Post.find().sort({
-            date: -1
-        })
+        date: -1
+    })
         .then(posts => res.json(posts))
         .catch(err => res.status(404).json({
             nopostfound: 'No posts found!'
@@ -44,8 +44,8 @@ router.get('/:id', (req, res) => {
 // @desc    Create post
 // @access  Private
 router.post('/', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         const {
             errors,
@@ -68,12 +68,12 @@ router.post('/', passport.authenticate('jwt', {
 // @desc    Delete post 
 // @access  Private
 router.delete('/:id', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         Profile.findOne({
-                user: req.user.id
-            })
+            user: req.user.id
+        })
             .then(profile => {
                 Post.findById(req.params.id)
                     .then(post => {
@@ -97,12 +97,12 @@ router.delete('/:id', passport.authenticate('jwt', {
 // @desc    Delete post 
 // @access  Private
 router.delete('/:id', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         Profile.findOne({
-                user: req.user.id
-            })
+            user: req.user.id
+        })
             .then(profile => {
                 Post.findById(req.params.id)
                     .then(post => {
@@ -126,12 +126,12 @@ router.delete('/:id', passport.authenticate('jwt', {
 // @desc    like post 
 // @access  Private
 router.post('/like/:id', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         Profile.findOne({
-                user: req.user.id
-            })
+            user: req.user.id
+        })
             .then(profile => {
                 Post.findById(req.params.id)
                     .then(post => {
@@ -156,12 +156,12 @@ router.post('/like/:id', passport.authenticate('jwt', {
 // @desc    unlike post 
 // @access  Private
 router.post('/unlike/:id', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         Profile.findOne({
-                user: req.user.id
-            })
+            user: req.user.id
+        })
             .then(profile => {
                 Post.findById(req.params.id)
                     .then(post => {
@@ -188,8 +188,8 @@ router.post('/unlike/:id', passport.authenticate('jwt', {
 // @desc    add comment to a post 
 // @access  Private
 router.post('/comment/:id', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         const {
             errors,
@@ -219,8 +219,8 @@ router.post('/comment/:id', passport.authenticate('jwt', {
 // @desc    Remove comment 
 // @access  Private
 router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', {
-        session: false
-    }),
+    session: false
+}),
     (req, res) => {
         Post.findById(req.params.id).then(post => {
             // check if comment exist
