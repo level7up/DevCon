@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import axios from "axios";
 import classnames from "classnames";
 import { connect } from "react-redux";
-import { registeruser } from "../../actions/authAction";
+import { registerUser } from "../../actions/authAction";
+
 class Register extends Component {
   constructor() {
     super();
@@ -17,6 +18,19 @@ class Register extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -29,7 +43,7 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registeruser(newUser);
+    this.props.registerUser(newUser, this.props.history);
     // axios
     //   .post("/api/users/register", newUser)
     //   .then(res => console.log(res.data))
@@ -37,10 +51,8 @@ class Register extends Component {
   }
   render() {
     const { errors } = this.state;
-    const { user } = this.props.auth;
     return (
       <div className="register">
-        {user ? user.name : null}
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -131,13 +143,16 @@ class Register extends Component {
   }
 }
 Register.propTypes = {
-  registeruser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
+
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 export default connect(
   mapStateToProps,
-  { registeruser }
-)(Register);
+  { registerUser }
+)(withRouter(Register));
